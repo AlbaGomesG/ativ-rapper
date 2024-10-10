@@ -1,0 +1,14 @@
+{
+  "name": "atividade-rapper",
+  "version": "1.0.0",
+  "description": "\"atividade rapper\"",
+  "main": "index.js ou server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "suspeitos"
+  ],
+  "author": "Giovanna Alba",
+  "license": "MIT"
+}
