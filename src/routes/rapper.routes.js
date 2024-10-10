@@ -58,7 +58,7 @@ rapperRoutes.post("/", (req, res) => {
     });
   }
 
-  // Validação de existência de envolvimento
+  // Validação de envolvimento
   if (envolvimento != "sim" && envolvimento != "não") {
     return res.status(400).send({
       message: "Digite 'sim' ou 'não'!",
@@ -98,6 +98,39 @@ rapperRoutes.get("/:id", (req, res) => {
   }
 
   return res.status(200).json(suspeito);
+});
+
+// Rota para atualizar um suspeito pelo id
+rapperRoutes.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { nome, idade, descricaoFisica, envolvimento } = req.body;
+
+  // Busca um suspeito pelo id no array de suspeitos
+  const suspeito = suspeitos.find((p) => p.id == id);
+
+// Validação dos campos obrigatórios
+if (!nome || !idade || !descricaoFisica || !envolvimento) {
+  return res.status(400).json({
+    message: "Os campos nome, idade, descricaofisica e envolvimento são obrigatórios!",
+  });
+}
+
+// Validação de envolvimento
+if (envolvimento != "sim" && envolvimento != "não") {
+  return res.status(400).send({
+    message: "Digite 'sim' ou 'não'!",
+  });
+}
+
+suspeito.nome = nome;
+suspeito.idade = idade;
+suspeito.descricaoFisica = descricaoFisica;
+suspeito.envolvimento = envolvimento || [];
+
+return res.status(200).json({
+  message: "Suspeito atualizado com sucesso!",
+  suspeito,
+});
 });
 
 export default rapperRoutes;
