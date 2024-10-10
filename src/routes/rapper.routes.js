@@ -4,7 +4,7 @@ const rapperRoutes = Router();
 
 // Array com suspeitos cadastrados
 
-let suspeitos = [
+let suspeito = [
   {
     id: Math.floor(Math.random() * 9999),
     nome: "Mariah Carey",
@@ -42,12 +42,12 @@ let suspeitos = [
   },
 ]
 
-// Rota para buscar todos os elementos do array suspeitos
+// Rota para buscar todos os elementos do array suspeito
 rapperRoutes.get("/", (req, res) => {
-    return res.status(200).send(suspeitos);
+    return res.status(200).send(suspeito);
 });
 
-// Rota para cadastrar um novo suspeito
+// Rota para cadastrar um novo suspeitos
 rapperRoutes.post("/", (req, res) => {
   const { nome, idade, descricaoFisica, envolvimento } = req.body;
 
@@ -66,7 +66,7 @@ rapperRoutes.post("/", (req, res) => {
   }
 
   // Criação de um novo suspeito
-  const novoSuspeito = {
+  const novosuspeito = {
     id: Math.floor(Math.random() * 9999),
     nome,
     idade,
@@ -74,39 +74,39 @@ rapperRoutes.post("/", (req, res) => {
     envolvimento: envolvimento|| [],
   };
 
-  // Adiciona o novo suspeito ao array de rapperRoutes
-  suspeitos.push(novoSuspeito);
+  // Adiciona o novo suspeitos ao array de rapperRoutes
+  suspeito.push(novosuspeitos);
 
   return res.status(201).json({
-    message: "suspeito cadastrado com sucesso!",
-    novoSuspeito,
+    message: "suspeitos cadastrado com sucesso!",
+    novosuspeitos,
   });
 });
 
-// Rota para buscar um suspeito pelo id
+// Rota para buscar um suspeitos pelo id
 rapperRoutes.get("/:id", (req, res) => {
   const { id } = req.params;
 
-  // Busca um suspeito pelo id no array de suspeitos
-  const suspeito = suspeitos.find((suspeito) => suspeito.id == id);
+  // Busca um suspeitos pelo id no array de suspeito
+  const suspeitos = suspeito.find((suspeitos) => suspeitos.id == id);
 
-  // Verifica se o suspeito foi encontrado
-  if (!suspeito) {
+  // Verifica se o suspeitos foi encontrado
+  if (!suspeitos) {
     return res
       .status(404)
-      .json({ message: `suspeito com id ${id} não encontrado!` });
+      .json({ message: `suspeitos com id ${id} não encontrado!` });
   }
 
-  return res.status(200).json(suspeito);
+  return res.status(200).json(suspeitos);
 });
 
-// Rota para atualizar um suspeito pelo id
+// Rota para atualizar um suspeitos pelo id
 rapperRoutes.put("/:id", (req, res) => {
   const { id } = req.params;
   const { nome, idade, descricaoFisica, envolvimento } = req.body;
 
-  // Busca um suspeito pelo id no array de suspeitos
-  const suspeito = suspeitos.find((p) => p.id == id);
+  // Busca um suspeitos pelo id no array de suspeito
+  const suspeitos = suspeito.find((p) => p.id == id);
 
 // Validação dos campos obrigatórios
 if (!nome || !idade || !descricaoFisica || !envolvimento) {
@@ -122,15 +122,38 @@ if (envolvimento != "sim" && envolvimento != "não") {
   });
 }
 
-suspeito.nome = nome;
-suspeito.idade = idade;
-suspeito.descricaoFisica = descricaoFisica;
-suspeito.envolvimento = envolvimento || [];
+suspeitos.nome = nome;
+suspeitos.idade = idade;
+suspeitos.descricaoFisica = descricaoFisica;
+suspeitos.envolvimento = envolvimento || [];
 
 return res.status(200).json({
-  message: "Suspeito atualizado com sucesso!",
-  suspeito,
+  message: "suspeitos atualizado com sucesso!",
+  suspeitos,
 });
+});
+
+// Rota para deletar um suspeitos
+rapperRoutes.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  // Busca um suspeitos pelo id no array de suspeitos
+  const suspeitos = suspeitos.find((suspeitos) => suspeitos.id == id);
+
+  // Verifica se o suspeitos foi encontrado
+  if (!suspeitos) {
+    return res
+      .status(404)
+      .json({ message: `suspeitos com id ${id} não encontrado!` });
+  }
+
+  // Remove o suspeitos do array de suspeito
+  suspeito = suspeitos.filter((suspeitos) => suspeitos.id != id);
+
+  return res.status(200).json({
+    message: "suspeitos removido com sucesso!",
+    suspeitos,
+  });
 });
 
 export default rapperRoutes;
